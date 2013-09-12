@@ -9,6 +9,8 @@ or
     
   gem install 'jw_alipay'
     
+doc
+  https://b.alipay.com/order/productDetail.htm?productId=2012120700377308
 
 config(config/alipay.yml)
   development:
@@ -43,9 +45,9 @@ controller
       redirect_to_wap_alipay_gateway(
           :subject => "pay",
           :out_trade_no => '1234567890', :total => 0.01,
-          :call_back_url => 'http://www.joowing.com',
-          :notify_url => 'http://www.joowing.com',
-          :merchant_url => 'http://www.joowing.com'
+          :call_back_url => 'http://domain/pay/pay_call_back',
+          :notify_url => 'http://domain/pay/pay_notify',
+          :merchant_url => 'http://domain'
       ) do |token|
         puts token
       end
