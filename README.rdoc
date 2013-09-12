@@ -1,3 +1,63 @@
 = JwAlipay
 
-This project rocks and uses MIT-LICENSE.
+install
+
+  gem 'jw_alipay'
+  bundle install
+
+or
+    
+  gem install 'jw_alipay'
+    
+
+config(config/alipay.yml)
+  development:
+    # alipay pid http://help.alipay.com/support/help_detail.htm?help_id=243726&sh=Y&tab=null&info_type=9
+    partner: '***'
+    # alipay key http://help.alipay.com/support/help_detail.htm?help_id=243726&sh=Y&tab=null&info_type=9
+    key: ***
+    # alipay account
+    email: ***
+
+  test:
+    partner: '***'
+    key: ***
+    email: ***
+
+  production:
+    partner: '***'
+    key: ***
+    email: ***
+
+controller
+  # encoding: utf-8
+  class PayController < ApplicationController
+    include JwAlipay::WapHelper
+  
+    def index
+      redirect_to_wap_alipay_gateway(
+          :subject => "pay",
+          :out_trade_no => '1234567890', :total => 0.01,
+          :call_back_url => 'http://www.joowing.com',
+          :notify_url => 'http://www.joowing.com',
+          :merchant_url => 'http://www.joowing.com'
+      ) do |token|
+        puts token
+      end
+    end
+  
+    # call_back_url
+    def pay_call_back
+      call_back do |data|
+        puts data.inspect
+      end
+    end
+  
+    # notify_url
+    def pay_notify
+      notify do |data|
+        puts data.inspect
+      end
+      render :text => 'success'
+    end
+  end
