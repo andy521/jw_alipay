@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.version     = JwAlipay::VERSION
   s.authors     = ["fz"]
   s.email       = ["zhu.fang@joowing.com"]
-  s.homepage    = "http://www.joowing.com"
+  s.homepage    = "https://github.com/fangzhu19880123/jw_alipay"
   s.summary     = "A gem for alipay"
   s.description = "A gem for alipay, contains mobile payment"
 
