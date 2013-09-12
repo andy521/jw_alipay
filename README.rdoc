@@ -29,6 +29,11 @@ config(config/alipay.yml)
     key: ***
     email: ***
 
+routes
+  get "pay/index"
+  get "pay/pay_call_back"
+  post "pay/pay_notify"
+
 controller
   # encoding: utf-8
   class PayController < ApplicationController
@@ -46,14 +51,14 @@ controller
       end
     end
   
-    # call_back_url
+    # call_back_url http://help.alipay.com/support/help_detail.htm?help_id=243126&sh=Y&tab=null&info_type=9
     def pay_call_back
       call_back do |data|
         puts data.inspect
       end
     end
   
-    # notify_url
+    # notify_url http://help.alipay.com/support/help_detail.htm?help_id=243126&sh=Y&tab=null&info_type=9
     def pay_notify
       notify do |data|
         puts data.inspect
