@@ -49,18 +49,18 @@ module JwAlipay
     end
 
     def call_back
-      log_info "支付宝call_back，request string：#{request.query_string}"
+      logger.info "支付宝call_back，request string：#{request.query_string}"
       res = JwAlipay::Response.new(request.query_string)
       if res.fields.try{ |x| x[:result] } == 'success'
-        log_info "订单[#{res.fields.try{ |x| x[:out_trade_no] }}]支付成功，调用call_back"
+        logger.info "订单[#{res.fields.try{ |x| x[:out_trade_no] }}]支付成功，调用call_back"
         yield res.fields
       else
-        log_error "订单[#{res.data.try{ |x| x[:out_trade_no] }}]支付出现问题，#{res.error.try{ |x| x[:detail] }}"
+        logger.error "订单[#{res.data.try{ |x| x[:out_trade_no] }}]支付出现问题，#{res.error.try{ |x| x[:detail] }}"
       end
     end
 
     def notify
-      log_info "支付宝notify，request string：#{env['rack.request.form_vars']}"
+      logger.info "支付宝notify，request string：#{env['rack.request.form_vars']}"
       res = JwAlipay::Response.new(
           env['rack.request.form_vars'],
           :sort => [:service, :v, :sec_id, :notify_data],
@@ -68,10 +68,10 @@ module JwAlipay
           :data_root => :notify
       )
       if ['TRADE_SUCCESS', 'TRADE_PENDING', 'TRADE_FINISHED'].include? res.data.try{ |x| x[:trade_status] }
-        log_info "订单[#{res.data.try{ |x| x[:out_trade_no] }}]支付成功，调用notify"
+        logger.info "订单[#{res.data.try{ |x| x[:out_trade_no] }}]支付成功，调用notify"
         yield res.data
       else
-        log_error "订单[#{res.data.try{ |x| x[:out_trade_no] }}]支付出现问题，status：#{res.data.try{ |x| x[:trade_status] }}，detail：#{res.error.try{ |x| x[:detail] }}"
+        logger.error "订单[#{res.data.try{ |x| x[:out_trade_no] }}]支付出现问题，status：#{res.data.try{ |x| x[:trade_status] }}，detail：#{res.error.try{ |x| x[:detail] }}"
       end
     end
   end
