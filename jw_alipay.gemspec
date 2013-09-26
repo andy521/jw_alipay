@@ -12,6 +12,7 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/fangzhu19880123/jw_alipay"
   s.summary     = "A gem for alipay"
   s.description = "A gem for alipay, contains mobile payment"
+  s.license     = 'MIT'
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
   # s.test_files = Dir["test/**/*"]
